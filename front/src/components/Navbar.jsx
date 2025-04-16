@@ -2,16 +2,19 @@ import React from "react";
 import {
   Button,
   Container,
-  DarkMode,
   Flex,
   HStack,
   Text,
+  useColorMode,
+  Tooltip,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { CiSquarePlus } from "react-icons/ci";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { IoIosArrowBack } from "react-icons/io";
+import { LuSun } from "react-icons/lu";
+import { IoMoon } from "react-icons/io5";
+
 const Navbar = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Container maxW={"1140px"} px={4}>
       <Flex
@@ -28,7 +31,7 @@ const Navbar = () => {
           fontWeight={"bold"}
           textTransform={"uppercase"}
           textAlign={"center"}
-          bgGradient="linear(to-r, cyan.400, blue.500)"
+          bgGradient="linear(to-r, cyan.400, blue.400)"
           bgClip="text"
         >
           <Link to="/">Product Store 🛒</Link>
@@ -39,9 +42,15 @@ const Navbar = () => {
               <CiSquarePlus fontSize={25} />
             </Button>
           </Link>
-          <Button onClick={DarkMode} variant={"outline"}>
-            <MdOutlineDarkMode fontSize={25} />
-          </Button>
+          <Tooltip label="Mode" hasArrow>
+            <Button onClick={toggleColorMode} variant={"outline"}>
+              {colorMode === "light" ? (
+                <IoMoon fontSize={20} />
+              ) : (
+                <LuSun fontSize={20} />
+              )}
+            </Button>
+          </Tooltip>
         </HStack>
       </Flex>
     </Container>
