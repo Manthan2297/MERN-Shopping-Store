@@ -12,12 +12,7 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   const product = req.body; // get the product from the request body
-  if (
-    !product.name ||
-    !product.price ||
-    !product.description ||
-    !product.image
-  ) {
+  if (!product.name || !product.price || !product.image) {
     return res.status(400).json({ message: "Please fill all the fields" });
   }
   const newproduct = new Product(product);
