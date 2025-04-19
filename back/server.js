@@ -1,19 +1,30 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
+
 import { connectDB } from "./config/db.js";
-import productroutes from "./routes/product.route.js";
+
+import productRoutes from "./routes/product.route.js";
 
 dotenv.config();
 
 const app = express();
-app.use(express.json()); //allow express to parse json data
+const PORT = process.env.PORT || 5000;
 
-console.log(process.env.Mongo_uri);
+const __dirname = path.resolve();
 
-const PORT = process.env.PORT;
+app.use(express.json()); // allows us to accept JSON data in the req.body
+
+app.use("/api/products", productRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/front/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "front", "dist", "index.html"));
+  });
+}
+
 app.listen(PORT, () => {
   connectDB();
-  console.log("server started at  http://localhost:" + PORT);
+  console.log("Server started at http://localhost:" + PORT);
 });
-
-app.use("/api/products", productroutes);

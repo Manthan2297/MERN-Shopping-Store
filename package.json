@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon back/server.js"
+    "dev": "nodemon back/server.js",
+    "build": "npm install && npm install --prefix front && npm run build --prefix front",
+    "start": "node back/server.js"
   },
   "type": "module",
   "keywords": [],
@@ -15,7 +17,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "100-projects": "file:",
-    "dotenv": "^16.4.7",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "framer-motion": "^12.7.3",
     "mongoose": "^8.13.2"
