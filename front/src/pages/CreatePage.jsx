@@ -39,6 +39,8 @@ const CreatePage = () => {
         isClosable: true,
       });
     }
+    // console.log("Product added successfully");
+    //reset to blank page
     setNewProduct({ name: "", price: "", image: "" });
   };
 

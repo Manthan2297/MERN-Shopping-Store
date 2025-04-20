@@ -17,6 +17,7 @@ app.use(express.json()); // allows us to accept JSON data in the req.body
 
 app.use("/api/products", productRoutes);
 
+//to get server and front rnd running on same local host use this
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static(path.join(__dirname, "/front/dist")));
 //   app.get("*", (req, res) => {
