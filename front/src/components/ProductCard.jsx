@@ -15,10 +15,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
   VStack,
+  Badge,
 } from "@chakra-ui/react";
 import { useProductStore } from "../store/product";
 import { useState } from "react";
@@ -27,7 +29,7 @@ const ProductCard = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
 
   const textColor = useColorModeValue("gray.600", "gray.200");
-  const bg = useColorModeValue("white", "gray.800");
+  const bg = useColorModeValue("white", "gray.900");
 
   const { deleteProduct, updateProduct } = useProductStore();
   const toast = useToast();
@@ -35,94 +37,91 @@ const ProductCard = ({ product }) => {
 
   const handleDeleteProduct = async (pid) => {
     const { success, message } = await deleteProduct(pid);
-    if (!success) {
-      toast({
-        title: "Error",
-        description: message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: "Success",
-        description: message,
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+    toast({
+      title: success ? "Success" : "Error",
+      description: message,
+      status: success ? "success" : "error",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const handleUpdateProduct = async (pid, updatedProduct) => {
     const { success, message } = await updateProduct(pid, updatedProduct);
     onClose();
-    if (!success) {
-      toast({
-        title: "Error",
-        description: message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: "Success",
-        description: "Product updated successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+    toast({
+      title: success ? "Success" : "Error",
+      description: success ? "Product updated successfully" : message,
+      status: success ? "success" : "error",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
     <Box
-      shadow="lg"
-      rounded="lg"
+      shadow="md"
+      rounded="xl"
       overflow="hidden"
       transition="all 0.3s"
-      _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
+      _hover={{ transform: "scale(1.02)", shadow: "lg" }}
       bg={bg}
+      borderWidth={1}
+      borderColor={useColorModeValue("gray.200", "gray.700")}
     >
       <Image
         src={product.image}
         alt={product.name}
-        h={48}
+        h={56}
         w="full"
         objectFit="cover"
+        transition="0.3s"
+        _hover={{ transform: "scale(1.03)" }}
       />
 
-      <Box p={4}>
+      <Box p={5}>
         <Heading as="h3" size="md" mb={2}>
           {product.name}
         </Heading>
 
-        <Text fontWeight="bold" fontSize="xl" color={textColor} mb={4}>
+        <Badge
+          colorScheme="green"
+          fontSize="1rem"
+          px={3}
+          py={1}
+          borderRadius="full"
+          mb={3}
+        >
           ${product.price}
-        </Text>
+        </Badge>
 
-        <HStack spacing={2}>
-          <IconButton icon={<EditIcon />} onClick={onOpen} colorScheme="blue" />
-          <IconButton
-            icon={<DeleteIcon />}
-            onClick={() => handleDeleteProduct(product._id)}
-            colorScheme="red"
-          />
+        <HStack spacing={3}>
+          <Tooltip label="Edit Product" hasArrow>
+            <IconButton
+              icon={<EditIcon />}
+              onClick={onOpen}
+              colorScheme="blue"
+            />
+          </Tooltip>
+          <Tooltip label="Delete Product" hasArrow>
+            <IconButton
+              icon={<DeleteIcon />}
+              onClick={() => handleDeleteProduct(product._id)}
+              colorScheme="red"
+            />
+          </Tooltip>
         </HStack>
       </Box>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-
         <ModalContent>
-          <ModalHeader>Update Product</ModalHeader>
+          <ModalHeader>Edit Product</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing={4}>
               <Input
                 placeholder="Product Name"
-                name="name"
                 value={updatedProduct.name}
                 onChange={(e) =>
                   setUpdatedProduct({ ...updatedProduct, name: e.target.value })
@@ -130,7 +129,6 @@ const ProductCard = ({ product }) => {
               />
               <Input
                 placeholder="Price"
-                name="price"
                 type="number"
                 value={updatedProduct.price}
                 onChange={(e) =>
@@ -142,7 +140,6 @@ const ProductCard = ({ product }) => {
               />
               <Input
                 placeholder="Image URL"
-                name="image"
                 value={updatedProduct.image}
                 onChange={(e) =>
                   setUpdatedProduct({
@@ -153,7 +150,6 @@ const ProductCard = ({ product }) => {
               />
             </VStack>
           </ModalBody>
-
           <ModalFooter>
             <Button
               colorScheme="blue"
@@ -171,4 +167,5 @@ const ProductCard = ({ product }) => {
     </Box>
   );
 };
+
 export default ProductCard;
