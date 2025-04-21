@@ -18,7 +18,7 @@ A complete full-stack e-commerce application built with the MERN stack — **Mon
 ### 🧰 Enhanced UI
 ![Enhanced UI](https://github.com/user-attachments/assets/8074460e-202d-43c3-8617-cf49fb1f1d5d)
 
-### 🌐 Project Running Locally
+### 🌐 MongoDB DataBase 
 ![Project Local](https://github.com/user-attachments/assets/45287ede-a705-4bc5-a67c-70ad51552cbb)
 
 ---
