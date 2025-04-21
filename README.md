@@ -62,7 +62,5 @@ Make sure you have the following installed:
 | MongoDB    | https://www.mongodb.com/try       |
 | Git        | https://git-scm.com               |
 
----
 
-## 📁 Folder Structure
 
